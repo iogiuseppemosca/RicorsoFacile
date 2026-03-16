@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Questa app ha bisogno di accedere alla fotocamera per scattare foto del verbale o della busta.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Questa app ha bisogno di accedere alla galleria per caricare foto del verbale o della busta.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Preserva i permessi video indispensabili per la fotocamera.</string>
 </dict>
 </plist>
