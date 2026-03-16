@@ -167,7 +167,6 @@ function renderDiagnostics(payload) {
 
     // Sezione Principale: Dati Estratti
     for (const [key, value] of Object.entries(extracted)) {
-        // Ignora liste o oggetti annidati per ora
         if (typeof value === 'object' && value !== null) continue;
         if (value === null || value === undefined || value === '') continue;
 
@@ -180,6 +179,60 @@ function renderDiagnostics(payload) {
             <div class="diagnostic-box">${value}</div>
         `;
         container.appendChild(card);
+    }
+
+    // NUOVA Sezione 2: Verifiche Tecniche (OK / KO / Criticità)
+    const checks = payload.checks || [];
+    if (checks.length > 0) {
+        const header = document.createElement('div');
+        header.innerHTML = `<h4 style="margin: 24px 0 8px 0; color: #004C8C; text-transform:uppercase; font-size:14px; border-bottom: 2px solid #e2e8f0; padding-bottom:4px;">Verifiche Tecniche</h4>`;
+        container.appendChild(header);
+
+        checks.forEach(check => {
+            const card = document.createElement('div');
+            card.className = 'diagnostic-card';
+            
+            let badgeColor = '#64748b'; // Grigio default
+            const esitoText = check.esito || 'N/D';
+            
+            if (esitoText === 'OK') badgeColor = '#10b981'; // Verde
+            if (esitoText === 'DA VERIFICARE') badgeColor = '#f59e0b'; // Arancione
+            if (esitoText === 'POSSIBILE CRITICITÀ') badgeColor = '#ef4444'; // Rosso
+
+            card.innerHTML = `
+                <div class="diagnostic-title" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>${check.nome}</span>
+                    <span style="background-color: ${badgeColor}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight:bold;">${esitoText}</span>
+                </div>
+                <div class="diagnostic-box" style="margin-top:4px;">
+                    <div>${check.spiegazione}</div>
+                    <div style="margin-top: 6px; font-size: 13px; color: #64748b; font-style: italic;">Evidenza: ${check.evidenza || 'Nessuna'}</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // NUOVA Sezione 3: Motivi di Ricorso o Approfondimenti
+    const grounds = payload.grounds || [];
+    if (grounds.length > 0) {
+        const header = document.createElement('div');
+        header.innerHTML = `<h4 style="margin: 24px 0 8px 0; color: #004C8C; text-transform:uppercase; font-size:14px; border-bottom: 2px solid #e2e8f0; padding-bottom:4px;">Elementi da Approfondire</h4>`;
+        container.appendChild(header);
+
+        grounds.forEach(ground => {
+            const card = document.createElement('div');
+            card.className = 'diagnostic-card';
+            card.innerHTML = `
+                <div class="diagnostic-title">Motivo di Analisi</div>
+                <div class="diagnostic-box">
+                    <div><strong>Descrizione:</strong> ${ground.descrizione}</div>
+                    <div style="margin-top: 4px;"><strong>Perché:</strong> ${ground.motivo_verifica}</div>
+                    <div style="margin-top: 6px; font-size: 13px; color: #64748b; font-style: italic;">Documentazione Utile: ${ground.documentazione_utile || 'Non specificata'}</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
     }
 
     // Sezione Dati Mancanti (se presenti)
