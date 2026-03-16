@@ -3,8 +3,7 @@ import 'package:dio/dio.dart';
 
 class ApiService {
   static String get _baseUrl {
-    if (Platform.isAndroid) return 'http://10.0.2.2:8000/api';
-    return 'http://127.0.0.1:8000/api';
+    return 'https://api-ricorsofacile.azurewebsites.net/api';
   }
 
   final Dio _dio = Dio(BaseOptions(
