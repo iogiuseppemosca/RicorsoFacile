@@ -9,7 +9,7 @@ class ApiService {
   final Dio _dio = Dio(BaseOptions(
     baseUrl: _baseUrl,
     connectTimeout: const Duration(seconds: 30),
-    receiveTimeout: const Duration(seconds: 60),
+    receiveTimeout: const Duration(seconds: 120),
     validateStatus: (status) => true, // To handle 402 manually
   ));
 
