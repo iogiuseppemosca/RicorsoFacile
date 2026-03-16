@@ -4,6 +4,7 @@ from fastapi import FastAPI, UploadFile, File, Form, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from fastapi.responses import FileResponse
 
 load_dotenv()
 
@@ -147,3 +148,17 @@ async def draft_appeal(
         "status": "OK",
         "ricorso_text": draft_md
     }
+
+from fastapi.responses import FileResponse
+
+@app.get("/")
+async def serve_index():
+    return FileResponse("static/index.html")
+
+@app.get("/style.css")
+async def serve_css():
+    return FileResponse("static/style.css")
+
+@app.get("/script.js")
+async def serve_js():
+    return FileResponse("static/script.js")
