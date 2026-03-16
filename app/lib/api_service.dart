@@ -69,7 +69,7 @@ class ApiService {
       } else if (e.type == DioExceptionType.connectionError) {
         throw Exception('Impossibile connettersi al server. Verifica la tua connessione e riprova.');
       }
-      throw Exception('Rete o server non disponibili. Errore generico: ${e.message}');
+      throw Exception('Rete o server non disponibili. Errore generico: ${e.message} | Dettagli: ${e.error}');
     } catch (e) {
       throw Exception('Errore imprevisto durante l\'analisi: $e');
     }
