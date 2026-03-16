@@ -200,7 +200,7 @@ input:focus, textarea:focus {
     background: none;
     border: none;
     color: #ffffff; /* Explicit white for visibility */
-    opacity: 0.8;
+    opacity: 0.75;
     padding: 14px 0;
     font-size: 15px;
     font-weight: bold; /* Bold titles */

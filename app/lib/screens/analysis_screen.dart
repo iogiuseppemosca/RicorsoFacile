@@ -19,12 +19,15 @@ class AnalysisScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Esito Analisi'),
-          bottom: const TabBar(
+          bottom: TabBar(
             indicatorColor: Colors.white,
-            tabs: [
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white.withOpacity(0.75),
+            labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            tabs: const [
               Tab(text: 'Sintesi'),
               Tab(text: 'Dettagli'),
-              Tab(text: 'Diagnostica'), // Ex JSON Debug
+              Tab(text: 'Diagnostica'),
             ],
           ),
         ),
