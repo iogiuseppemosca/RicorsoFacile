@@ -1,0 +1,26 @@
+ERROR: The command failed with an unexpected error. Here is the traceback:
+ERROR: [Errno 1] Operation not permitted: '/Users/giuseppemosca/.azure/commands/2026-03-16.13-37-30.webapp_log_tail.23970.log'
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/lib/python3.13/site-packages/knack/cli.py", line 233, in invoke
+    cmd_result = self.invocation.execute(args)
+  File "/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/lib/python3.13/site-packages/azure/cli/core/commands/__init__.py", line 523, in execute
+    self.cli_ctx.raise_event(EVENT_INVOKER_PRE_CMD_TBL_TRUNCATE,
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             load_cmd_tbl_func=self.commands_loader.load_command_table, args=args)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/lib/python3.13/site-packages/knack/cli.py", line 170, in raise_event
+    func(self, **kwargs)
+    ~~~~^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/lib/python3.13/site-packages/azure/cli/core/azlogging.py", line 95, in init_command_file_logging
+    self._init_command_logfile_handlers(metadata_logger, args)  # pylint: disable=protected-access
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/azure-cli/2.83.0/libexec/lib/python3.13/site-packages/azure/cli/core/azlogging.py", line 115, in _init_command_logfile_handlers
+    logfile_handler = logging.FileHandler(log_file_path, encoding=LOG_FILE_ENCODING)
+  File "/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/logging/__init__.py", line 1219, in __init__
+    StreamHandler.__init__(self, self._open())
+                                 ~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.12_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/logging/__init__.py", line 1248, in _open
+    return open_func(self.baseFilename, self.mode,
+                     encoding=self.encoding, errors=self.errors)
+PermissionError: [Errno 1] Operation not permitted: '/Users/giuseppemosca/.azure/commands/2026-03-16.13-37-30.webapp_log_tail.23970.log'
+To check existing issues, please visit: https://github.com/Azure/azure-cli/issues
