@@ -199,19 +199,66 @@ input:focus, textarea:focus {
     flex: 1;
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.7);
-    padding: 12px 0;
-    font-size: 14px;
-    font-weight: 500;
+    color: #ffffff; /* Explicit white for visibility */
+    opacity: 0.8;
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: bold; /* Bold titles */
     cursor: pointer;
     text-align: center;
     border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.tab-item:hover {
+    opacity: 1;
 }
 
 .tab-item.active {
-    color: var(--white);
-    border-color: var(--white);
+    opacity: 1;
+    border-color: #ffffff;
 }
+
+/* Diagnostics Dashboard */
+.diagnostics-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.diagnostic-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.diagnostic-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.diagnostic-box {
+    background-color: #F8FAFC;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: #1e293b;
+    line-height: 1.5;
+    word-break: break-all; /* Fallback for very long JSON strings */
+}
+
+.diagnostic-box.empty {
+    color: var(--grey-text);
+    font-style: italic;
+}
+
 
 .tab-content {
     display: none;

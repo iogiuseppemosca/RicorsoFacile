@@ -140,8 +140,59 @@ function renderAnalysis(data) {
     const markdown = data.analysis_markdown || 'Nessuna specifica di dettaglio disponibile.';
     document.getElementById('res-markdown').innerHTML = parseMarkdown(markdown);
 
-    // Tab 3 JSON
-    document.getElementById('res-json').innerText = JSON.stringify(payload, null, 2);
+    // Tab 3 Diagnostica
+    renderDiagnostics(payload);
+}
+
+function renderDiagnostics(payload) {
+    const container = document.getElementById('res-diagnostics');
+    container.innerHTML = ''; // Clear previous
+
+    const extracted = payload.extracted || {};
+    
+    // Mappa per tradurre chiavi in etichette utente
+    const keyLabels = {
+        'doc_type': 'Tipo Documento',
+        'verbale_number': 'Numero Verbale',
+        'infraction_date': 'Data Infrazione',
+        'notification_date': 'Data Notifica',
+        'comune': 'Comune / Autorità',
+        'luogo': 'Luogo Infrazione',
+        'descrizione_infrazione': 'Descrizione Infrazione',
+        'violazione_articolo': 'Articolo Violato',
+        'importo_sanzione': 'Importo Sanzione',
+        'punti_decurtati': 'Punti Decurtati',
+        'veicolo': 'Veicolo / Targa'
+    };
+
+    // Sezione Principale: Dati Estratti
+    for (const [key, value] of Object.entries(extracted)) {
+        // Ignora liste o oggetti annidati per ora
+        if (typeof value === 'object' && value !== null) continue;
+        if (value === null || value === undefined || value === '') continue;
+
+        const label = keyLabels[key] || key.replace(/_/g, ' ').toUpperCase();
+        
+        const card = document.createElement('div');
+        card.className = 'diagnostic-card';
+        card.innerHTML = `
+            <div class="diagnostic-title">${label}</div>
+            <div class="diagnostic-box">${value}</div>
+        `;
+        container.appendChild(card);
+    }
+
+    // Sezione Dati Mancanti (se presenti)
+    const recommendation = payload.recommendation || {};
+    if (recommendation.missing_data && recommendation.missing_data.length > 0) {
+        const card = document.createElement('div');
+        card.className = 'diagnostic-card';
+        card.innerHTML = `
+            <div class="diagnostic-title" style="color: #ef4444;">Dati Mancanti / Richiesti</div>
+            <div class="diagnostic-box">${recommendation.missing_data.join(', ')}</div>
+        `;
+        container.appendChild(card);
+    }
 }
 
 function showDraftView() {
