@@ -94,6 +94,9 @@ class ApiService {
         },
       );
       
+      if (response.statusCode == 402) {
+        throw Exception('Token non valido o Pagamento Necessario.');
+      }
       if (response.statusCode != 200) {
         throw Exception('Generazione bozza fallita: ${response.statusCode}');
       }
