@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RicorsoFacile POC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- App Bar -->
+    <header class="app-bar">
+        <div class="app-bar-title" id="app_title">RicorsoFacile POC</div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="content-view">
+        
+        <!-- ==================== VIEW 1: UPLOAD ==================== -->
+        <section id="view-upload" class="view active">
+            <!-- 1. Carica Verbale -->
+            <div class="card">
+                <h3>1. Aggiungi il verbale (PDF o Foto)</h3>
+                <div class="upload-options">
+                    <button class="btn btn-icon" onclick="document.getElementById('pdf_file').click()">
+                        <i class="fa-solid fa-file-pdf"></i> Carica PDF
+                    </button>
+                    <span class="or-separator">OPPURE</span>
+                    <button class="btn btn-icon" onclick="document.getElementById('ticket_images').click()">
+                        <i class="fa-solid fa-camera"></i> Scatta Foto
+                    </button>
+                </div>
+                <!-- Filename/Counter lists -->
+                <div class="file-list" id="pdf-status"></div>
+                <div class="file-list" id="ticket-images-status"></div>
+                <input type="file" id="pdf_file" accept=".pdf" style="display:none">
+                <input type="file" id="ticket_images" accept="image/*" multiple style="display:none">
+            </div>
+
+            <!-- 2. Foto Busta -->
+            <div class="card">
+                <h3>2. Foto Busta/Relata (Opzionale, max 2)</h3>
+                <div class="upload-options">
+                    <button class="btn btn-icon" onclick="document.getElementById('envelope_images').click()">
+                        <i class="fa-solid fa-camera"></i> Aggiungi Foto
+                    </button>
+                    <span class="file-count" id="envelope-count">0/2 foto</span>
+                </div>
+                <div class="file-list" id="envelope-images-status"></div>
+                <input type="file" id="envelope_images" accept="image/*" multiple style="display:none">
+            </div>
+
+            <!-- 3. Dati Manuali -->
+            <div class="card">
+                <h3>3. Dati Manuali (Opzionali)</h3>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Data Infrazione</label>
+                        <input type="date" id="manual_infraction_date">
+                    </div>
+                    <div class="input-group">
+                        <label>Data Notifica</label>
+                        <input type="date" id="manual_notification_date">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Comune / Provincia</label>
+                    <input type="text" id="comune_provincia" placeholder="Es. Roma">
+                </div>
+                <div class="input-group">
+                    <label>Note aggiuntive</label>
+                    <textarea id="user_notes" rows="2" placeholder="Note per l'analisi..."></textarea>
+                </div>
+            </div>
+
+            <!-- Action Area -->
+            <button class="btn btn-large" id="analyze-btn" onclick="analyzeDocument()">
+                Analizza Verbale
+            </button>
+        </section>
+
+        <!-- ==================== VIEW 2: ANALYSIS (TABS) ==================== -->
+        <section id="view-analysis" class="view">
+            <!-- Tab Navigation (Standard Flutter style) -->
+            <nav class="tab-bar">
+                <button class="tab-item active" onclick="switchTab('sintesi')">Sintesi</button>
+                <button class="tab-item" onclick="switchTab('dettagli')">Dettagli</button>
+                <button class="tab-item" onclick="switchTab('json-debug')">JSON Debug</button>
+            </nav>
+
+            <div class="tab-content-area">
+                <!-- Tab Sintesi -->
+                <div id="tab-sintesi" class="tab-content active">
+                    <div class="card list-tile">
+                        <div class="tile-title">Conviene ricorrere?</div>
+                        <div class="tile-subtitle bold" id="res-should-appeal">Caricamento...</div>
+                    </div>
+                    <div class="card list-tile">
+                        <div class="tile-title">Livello di Rischio</div>
+                        <div class="tile-subtitle" id="res-risk">-</div>
+                    </div>
+                    <div class="card list-tile">
+                        <div class="tile-title">Via Consigliata</div>
+                        <div class="tile-subtitle" id="res-preferred-route">-</div>
+                    </div>
+                </div>
+
+                <!-- Tab Dettagli -->
+                <div id="tab-dettagli" class="tab-content">
+                    <div class="markdown-body" id="res-markdown"></div>
+                </div>
+
+                <!-- Tab JSON Debug -->
+                <div id="tab-json-debug" class="tab-content">
+                    <pre><code id="res-json"></code></pre>
+                </div>
+            </div>
+
+            <!-- Floating Action Button extended -->
+            <button class="fab-extended" id="draft-fab" onclick="showDraftView()">
+                <i class="fa-solid fa-file-pen"></i> Genera Ricorso
+            </button>
+        </section>
+
+        <!-- ==================== VIEW 3: DRAFT (PAYWALL) ==================== -->
+        <section id="view-draft" class="view">
+            <div class="card">
+                <h3>Richiesta Dati per Ricorso</h3>
+                <p class="section-desc">Inserisci i tuoi dati anagrafici e il token per la simulazione del paywall.</p>
+                <div class="input-group">
+                    <label>Nome e Cognome</label>
+                    <input type="text" id="draft-nome" placeholder="Mario Rossi">
+                </div>
+                <div class="input-group">
+                    <label>Codice Fiscale</label>
+                    <input type="text" id="draft-cf" placeholder="RSSMRA...">
+                </div>
+                <div class="input-group">
+                    <label>Indirizzo di Residenza</label>
+                    <input type="text" id="draft-indirizzo" placeholder="Via Roma 1, Milano">
+                </div>
+                <div class="input-group">
+                    <label>PEC / Email</label>
+                    <input type="text" id="draft-pec" placeholder="mario.rossi@pec.it">
+                </div>
+            </div>
+
+            <div class="card warning-card">
+                <h3><i class="fa-solid fa-lock"></i> Simulazione Paywall</h3>
+                <div class="input-group">
+                    <label>Inserisci Token Pagamento POC</label>
+                    <input type="password" id="payment_token" value="letmein-ricorso">
+                </div>
+            </div>
+
+            <button class="btn btn-large" id="generate-btn" onclick="generateAppeal()">
+                Genera Bozza Ricorso
+            </button>
+
+            <div id="draft-result" class="card" style="display:none; margin-top:2rem;">
+                <h3>Bozza Ricorso Generata</h3>
+                <div class="markdown-body" id="res-draft-text" style="background:#eef2f3; padding:1rem; border-radius:8px; color:#333; white-space:pre-wrap;"></div>
+            </div>
+        </section>
+
+        <!-- Loading Overlay -->
+        <div class="overlay" id="loading-overlay">
+            <div class="spinner"></div>
+            <p id="loading-text">Analisi in corso...</p>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

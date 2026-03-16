@@ -1,0 +1,296 @@
+/* CSS Stylesheet matching Flutter Material App theme */
+
+:root {
+    /* Flutter colors from theme.dart */
+    --primary-blue: #004C8C;
+    --background-white: #F5F7FA;
+    --text-color: #333333;
+    --grey-text: #757575;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--background-white);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+/* App Bar */
+.app-bar {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.app-bar-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* Content Container */
+.content-view {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 80px; /* space for FAB */
+    position: relative;
+}
+
+/* Card Elements (replaying CardThemeData) */
+.card {
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* slight elevation */
+    padding: 16px;
+    margin-bottom: 12px;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: var(--text-color);
+}
+
+/* Forms & Inputs */
+.upload-options {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.or-separator {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--grey-text);
+}
+
+.file-count {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--grey-text);
+}
+
+input[type="date"], input[type="text"], textarea, input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #c4c4c4;
+    border-radius: 10px;
+    background-color: var(--white);
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    border-width: 2px;
+}
+
+/* Buttons */
+.btn {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-large {
+    width: 100%;
+    margin-top: 16px;
+    font-size: 18px;
+}
+
+.btn-icon {
+    flex: 1;
+}
+
+.btn:active {
+    opacity: 0.8;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* List Tile matching Sintesi */
+.list-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tile-title {
+    font-size: 14px;
+    color: var(--grey-text);
+}
+
+.tile-subtitle {
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.tile-subtitle.bold {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Tab Bar */
+.tab-bar {
+    display: flex;
+    background-color: var(--primary-blue);
+    position: sticky;
+    top: 56px;
+    z-index: 999;
+}
+
+.tab-item {
+    flex: 1;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-item.active {
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.tab-content {
+    display: none;
+    margin-top: 16px;
+    animation: fadeIn 0.2s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Floating Action Button */
+.fab-extended {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: var(--primary-blue); /* standard Flutter fab uses accent, but Flutter theme says ButtonUsesPrimary */
+    color: var(--white);
+    border: none;
+    border-radius: 28px;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.fab-extended:active {
+    transform: scale(0.95);
+}
+
+/* Status overlays */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.spinner {
+    width: 40px; height: 40px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#loading-text {
+    color: var(--white);
+    margin-top: 16px;
+    font-weight: 500;
+}
+
+.file-list {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #4caf50;
+    background: #e8f5e9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: none;
+}
+
+.warning-card {
+    border-left: 4px solid #f44336;
+}
