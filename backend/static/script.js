@@ -108,6 +108,13 @@ async function analyzeDocument() {
             body: formData
         });
 
+        if (!response.ok) {
+            const errorText = await response.text();
+            alert(`Errore Server (${response.status}): ${errorText}`);
+            loadingOverlay.style.display = 'none';
+            return;
+        }
+
         const data = await response.json();
 
         if (data.status === 'OK') {
@@ -289,6 +296,14 @@ async function generateAppeal() {
 
         if (response.status === 402) {
             alert('Errore 402: Il Token inserito non è valido o simulazione pagamento fallita.');
+            loadingOverlay.style.display = 'none';
+            return;
+        }
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            alert(`Errore Generazione (${response.status}): ${errorText}`);
+            loadingOverlay.style.display = 'none';
             return;
         }
 
